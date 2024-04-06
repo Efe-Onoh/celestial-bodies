@@ -54,7 +54,8 @@ CREATE TABLE public.galaxy (
     has_life boolean,
     age_in_millions_of_years integer,
     distance_from_earth_in_ly numeric(20,2),
-    is_spherical boolean
+    is_spherical boolean,
+    galaxy_types_id integer
 );
 
 
@@ -88,7 +89,8 @@ ALTER SEQUENCE public.galaxy_galaxy_id_seq OWNED BY public.galaxy.galaxy_id;
 
 CREATE TABLE public.galaxy_types (
     galaxy_types_id integer NOT NULL,
-    name character varying(30) NOT NULL
+    name character varying(30) NOT NULL,
+    is_spherical boolean NOT NULL
 );
 
 
@@ -201,7 +203,8 @@ ALTER SEQUENCE public.planet_planet_id_seq OWNED BY public.planet.planet_id;
 
 CREATE TABLE public.planet_types (
     planet_types_id integer NOT NULL,
-    name character varying(30) NOT NULL
+    name character varying(30) NOT NULL,
+    is_spherical boolean NOT NULL
 );
 
 
@@ -312,23 +315,48 @@ ALTER TABLE ONLY public.star ALTER COLUMN star_id SET DEFAULT nextval('public.st
 -- Data for Name: galaxy; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.galaxy VALUES ('Milky Way', 'The Milky Way is the galaxy that contains our Solar System.', 1, true, 13000, 100000.00, false);
-INSERT INTO public.galaxy VALUES ('Andromeda', 'Andromeda is a spiral galaxy approximately 2.537 million light-years from Earth.', 2, false, 10000, 2537000.00, false);
-INSERT INTO public.galaxy VALUES ('Messier 87', 'Messier 87 is a supergiant elliptical galaxy in the constellation Virgo.', 3, false, 6000, 54300000.00, true);
-INSERT INTO public.galaxy VALUES ('Triangulum Galaxy', 'The Triangulum Galaxy is a spiral galaxy approximately 2.723 million light-years from Earth.', 4, false, 5500, 2723000.00, false);
-INSERT INTO public.galaxy VALUES ('Sombrero Galaxy', 'The Sombrero Galaxy is an unbarred spiral galaxy in the constellation Virgo.', 5, false, 8000, 29000000.00, false);
+INSERT INTO public.galaxy VALUES ('Messier 87', 'Messier 87 is a supergiant elliptical galaxy in the constellation Virgo.', 3, false, 6000, 54300000.00, true, 1);
+INSERT INTO public.galaxy VALUES ('Whirlpool Galaxy', 'The Whirlpool Galaxy is an interacting grand-design spiral galaxy in the constellation Canes Venatici.', 6, false, 23000, 23000000.00, true, 1);
+INSERT INTO public.galaxy VALUES ('Pinwheel Galaxy', 'The Pinwheel Galaxy is a face-on spiral galaxy located in the constellation Ursa Major.', 7, false, 25000, 27000000.00, true, 1);
+INSERT INTO public.galaxy VALUES ('Milky Way', 'The Milky Way is the galaxy that contains our Solar System.', 1, true, 13000, 100000.00, false, 2);
+INSERT INTO public.galaxy VALUES ('Andromeda', 'Andromeda is a spiral galaxy approximately 2.537 million light-years from Earth.', 2, false, 10000, 2537000.00, false, 2);
+INSERT INTO public.galaxy VALUES ('Triangulum Galaxy', 'The Triangulum Galaxy is a spiral galaxy approximately 2.723 million light-years from Earth.', 4, false, 5500, 2723000.00, false, 2);
+INSERT INTO public.galaxy VALUES ('Sombrero Galaxy', 'The Sombrero Galaxy is an unbarred spiral galaxy in the constellation Virgo.', 5, false, 8000, 29000000.00, false, 2);
 
 
 --
 -- Data for Name: galaxy_types; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
+INSERT INTO public.galaxy_types VALUES (1, 'Elliptical', true);
+INSERT INTO public.galaxy_types VALUES (2, 'Spiral', false);
+INSERT INTO public.galaxy_types VALUES (3, 'Irregular', false);
 
 
 --
 -- Data for Name: moon; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
+INSERT INTO public.moon VALUES (1, 'Luna', 4500, 0.00, true, false, 3);
+INSERT INTO public.moon VALUES (2, 'Phobos', 4500, 0.00, true, false, 4);
+INSERT INTO public.moon VALUES (3, 'Deimos', 4500, 0.00, true, false, 4);
+INSERT INTO public.moon VALUES (4, 'Ganymede', 4500, 0.00, true, false, 5);
+INSERT INTO public.moon VALUES (5, 'Europa', 4500, 0.00, true, false, 5);
+INSERT INTO public.moon VALUES (6, 'Io', 4500, 0.00, true, false, 5);
+INSERT INTO public.moon VALUES (7, 'Titan', 4500, 0.00, true, false, 6);
+INSERT INTO public.moon VALUES (8, 'Enceladus', 4500, 0.00, true, false, 6);
+INSERT INTO public.moon VALUES (9, 'Mimas', 4500, 0.00, true, false, 6);
+INSERT INTO public.moon VALUES (10, 'Miranda', 4500, 0.00, true, false, 7);
+INSERT INTO public.moon VALUES (11, 'Triton', 4500, 0.00, true, false, 8);
+INSERT INTO public.moon VALUES (12, 'Charon', 4500, 0.00, true, false, 8);
+INSERT INTO public.moon VALUES (13, 'Kepler-186f', 4000, 582.00, true, true, 9);
+INSERT INTO public.moon VALUES (14, 'HD 209458 b', 3500, 157.00, true, false, 10);
+INSERT INTO public.moon VALUES (15, 'Gliese 581 c', 2000, 20.00, true, false, 11);
+INSERT INTO public.moon VALUES (16, 'Proxima Centauri b', 4850, 4.00, true, true, 12);
+INSERT INTO public.moon VALUES (17, 'TRAPPIST-1d', 7600, 40.70, true, true, 13);
+INSERT INTO public.moon VALUES (18, 'WASP-12b', 3, 1200.00, true, false, 14);
+INSERT INTO public.moon VALUES (19, '51 Pegasi b', 6, 50.00, true, false, 15);
+INSERT INTO public.moon VALUES (20, 'Lysithea', 4500, 0.00, true, false, 5);
 
 
 --
@@ -356,6 +384,10 @@ INSERT INTO public.planet VALUES (15, '51 Pegasi b', '51 Pegasi b was the first 
 -- Data for Name: planet_types; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
+INSERT INTO public.planet_types VALUES (1, 'Terrestrial', true);
+INSERT INTO public.planet_types VALUES (2, 'Gas giant', true);
+INSERT INTO public.planet_types VALUES (3, 'Ice giant', true);
+INSERT INTO public.planet_types VALUES (4, 'Dwarf', false);
 
 
 --
@@ -380,21 +412,21 @@ INSERT INTO public.star VALUES (12, 'HD 209458', 4000, 159.00, 1);
 -- Name: galaxy_galaxy_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.galaxy_galaxy_id_seq', 5, true);
+SELECT pg_catalog.setval('public.galaxy_galaxy_id_seq', 7, true);
 
 
 --
 -- Name: galaxy_types_galaxy_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.galaxy_types_galaxy_types_id_seq', 1, false);
+SELECT pg_catalog.setval('public.galaxy_types_galaxy_types_id_seq', 3, true);
 
 
 --
 -- Name: moon_moon_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.moon_moon_id_seq', 1, false);
+SELECT pg_catalog.setval('public.moon_moon_id_seq', 20, true);
 
 
 --
@@ -408,7 +440,7 @@ SELECT pg_catalog.setval('public.planet_planet_id_seq', 15, true);
 -- Name: planet_types_planet_types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.planet_types_planet_types_id_seq', 1, false);
+SELECT pg_catalog.setval('public.planet_types_planet_types_id_seq', 4, true);
 
 
 --
@@ -512,6 +544,14 @@ ALTER TABLE ONLY public.star
 
 ALTER TABLE ONLY public.star
     ADD CONSTRAINT star_pkey PRIMARY KEY (star_id);
+
+
+--
+-- Name: galaxy galaxy_galaxy_types_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.galaxy
+    ADD CONSTRAINT galaxy_galaxy_types_id_fkey FOREIGN KEY (galaxy_types_id) REFERENCES public.galaxy_types(galaxy_types_id);
 
 
 --
